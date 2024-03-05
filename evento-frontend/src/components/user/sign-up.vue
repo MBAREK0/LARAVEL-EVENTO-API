@@ -14,12 +14,12 @@
 
             <div class="home-logo">
                 <router-link :to="{name :'home'}">
-                    <img src="../../../images/logo.svg" alt="Homepage">
+                    <img src="../../assets/logo.png" alt="Homepage">
                 </router-link>
             </div>
-
             <div class="row home-content__main">
-                <form class="form">
+                
+             <form class="form">
                     <p class="title">Register </p>
                     <p class="message">Signup now and get full access to our app. </p>
                         <div class="flex">
@@ -50,18 +50,13 @@
                     <button class="submit">Submit</button>
                     <p class="signin">Already have an acount ? <a href="#">Signin</a> </p>
                 </form>
-            </div>  <!-- end home-content__main -->
-
+               
+            </div>
+  
             <ul class="home-social">
-                <li>
-                <a href="#0"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a>
-                </li>
-                <li>
-                <a href="#0"><i class="fab fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>
-                </li>
-                <li>
-                <a href="#0"><i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
-                </li>
+             <li>
+                <a href="#0"><i class="fab fa-google" aria-hidden="true"></i><span>GOOGEL</span></a>
+             </li>
             </ul> <!-- end home-social -->
 
       
@@ -71,18 +66,11 @@
         </div> <!-- end home-content -->
 
     </main> <!-- end s-home -->
-
-
-   
-
-
-   
-
+ <foooter/>
 </template>
 
 <script>
-import ticket from './cards/ticket.vue'
-import foooter from './nav/foooter.vue'
+import foooter from './nav/footer.vue'
 export default {
   components : {
     foooter
@@ -93,7 +81,7 @@ export default {
 
 <style scoped>
 .home-slider-img{
-    background-image: url('');
+    background-image: url('https://media.istockphoto.com/id/1391169357/vector/violet-neon-lines-and-triangle-abstract-technology-background.jpg?s=612x612&w=0&k=20&c=oeAXgnfN31SZrBy_Gf6Yp3lyG_jSetRvCS2Ig0x1eWw=');
 }
 
 .modal-form {
@@ -233,11 +221,22 @@ export default {
  .home-content__main{
     display: flex;
     justify-content: center;
-    align-items: center;
+
 
  }
  .form{
-    widows: 70%;
+    width: 60%;
+ }
+}
+@media (min-width: 1000px) {
+ .home-content__main{
+    display: flex;
+    justify-content: center;
+
+
+ }
+ .form{
+    width: 50%;
  }
 }
 </style>

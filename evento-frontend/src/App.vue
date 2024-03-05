@@ -22,6 +22,27 @@
     @import '@/assets/css/vendor.css';
     @import '@/assets/css/app.css';
     @import '@/assets/css/main.css'; 
-    
-   
+    .add-btn {
+  background-color: #fff;
+  border: 1px solid #0077b5;
+ height: 45px;
+  padding: 0 19px;
+  margin: 0;
+
+  border-radius: 0.4em;
+  color: #0077b5;
+}
+
+.add-btn:hover {
+  background-color: #0077b5;
+  color: #fff;
+
+}
+.flxbox{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 </style>

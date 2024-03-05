@@ -180,7 +180,7 @@
 
 <script>
 import ticket from './cards/ticket.vue'
-import smallNav from './nav/smallNav.vue'
+import smallNav from './nav/nav.vue'
 
 export default {
   data() {
@@ -215,7 +215,7 @@ export default {
 
 <style scoped>
 .home-slider-img{
-    background-image: url('');
+    background-image: url('https://wallpapers.com/images/hd/concert-background-dd0syeox7rmi78l0.jpg');
 }
 .modal-form {
     position: absolute;
@@ -349,4 +349,10 @@ export default {
     opacity: 0;
   }
 }
+@media screen and (max-width: 800px) {
+  .modal-form{
+  width: 90% !important;
+}
+}
+
 </style>

@@ -13,8 +13,8 @@
         <div class="home-content">
 
             <div class="home-logo">
-                <router-link :to="{name :'home'}">
-                    <img src="" alt="Homepage">
+               <router-link :to="{name :'home'}">
+                    <img src="../../assets/logo.png" alt="Homepage">
                 </router-link>
             </div>
             <div class="row home-content__main">
@@ -39,14 +39,9 @@
   
             <ul class="home-social">
                 <li>
-                <a href="#0"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a>
+                <a href="#0"><i class="fab fa-google" aria-hidden="true"></i><span>GOOGEL</span></a>
                 </li>
-                <li>
-                <a href="#0"><i class="fab fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>
-                </li>
-                <li>
-                <a href="#0"><i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
-                </li>
+             
             </ul> <!-- end home-social -->
 
       
@@ -60,7 +55,7 @@
 </template>
 
 <script>
-import foooter from './nav/foooter.vue'
+import foooter from './nav/footer.vue'
 export default {
   components : {
     foooter
@@ -71,7 +66,7 @@ export default {
 
 <style scoped>
 .home-slider-img{
-    background-image: url('');
+    background-image: url('https://media.istockphoto.com/id/1138194497/photo/3d-render-abstract-minimal-background-glowing-lines-going-up-arrow-cyber-chart-pink-blue-neon.jpg?s=612x612&w=0&k=20&c=Y9b1DzRWeYJRg_2QAVA0t8Mj2iL2v7BGJW0KV_5UNiA=');
 }
 
 .modal-form {
@@ -215,7 +210,18 @@ export default {
 
  }
  .form{
-    width: 40%;
+    width: 60%;
+ }
+}
+@media (min-width: 1000px) {
+ .home-content__main{
+    display: flex;
+    justify-content: center;
+
+
+ }
+ .form{
+    width: 50%;
  }
 }
 </style>

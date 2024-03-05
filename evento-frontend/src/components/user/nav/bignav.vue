@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import smallNav from './smallNav.vue'
+import smallNav from './nav.vue'
 export default {
   components :{
     smallNav
@@ -27,7 +27,7 @@ export default {
 
 <style scoped>
 #navv{
-background-image: url(https://images6.alphacoders.com/134/1342758.png);
+background-image: url('https://wallpapers.com/images/hd/concert-background-dd0syeox7rmi78l0.jpg');
 height: 400px;
 background-size: cover;
 background-repeat: no-repeat;

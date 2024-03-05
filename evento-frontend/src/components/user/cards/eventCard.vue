@@ -1,15 +1,15 @@
 <template>
   <section id="card1" class="card">
-<img src="https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?cs=srgb&dl=pexels-josh-sorenson-976866.jpg&fm=jpg" alt=""/>
-  <div class="card__content">
-    <p class="card__title">Lorem Ipsum</p>
-    <p class="card__description">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae
-      justo vel lorem tincidunt ultrices at non nunc. Donec in sapien viverra,
-      tincidunt augue id, efficitur massa.
-    </p>
-  </div>
-</section>
+    <img src="https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?cs=srgb&dl=pexels-josh-sorenson-976866.jpg&fm=jpg" alt=""/>
+    <div class="card__content">
+      <p class="card__title">Lorem Ipsum</p>
+      <p class="card__description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae
+        justo vel lorem tincidunt ultrices at non nunc. Donec in sapien viverra,
+        tincidunt augue id, efficitur massa.
+      </p>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
 section.card {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 300px; /* Adjusted height */
   background-color: #111;
   border-radius: 10px;
   display: flex;
@@ -40,7 +40,7 @@ section.card {
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px #000000;
-  background-color: #ec008c;
+  background-color: #000000;
   color: #ffffff;
 }
 
@@ -52,10 +52,11 @@ section.card {
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #0087cc;
+  background-color: #000;
   transform: rotateX(-90deg);
   transform-origin: bottom;
   transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-bottom: 1px solid #ededed;
 }
 
 .card:hover .card__content {
@@ -80,11 +81,4 @@ section.card {
   color: #ffffff;
   line-height: 1.4;
 }
-/* Commands to change the shadows in dark mode
-@media (prefers-color-scheme: dark) {
-  .card:hover {
-  box-shadow: 0 8px 16px #000000;
-  }
-}*/
-
 </style>

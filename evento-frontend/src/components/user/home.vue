@@ -18,7 +18,7 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque esse quae reiciendis suscipit. Deleniti dolores ad soluta sunt illo adipisci magnam tempore sit iusto obcaecati consequatur, corporis nostrum provident nihil.</p>
             </div>
         </div>
-        <div class="row">
+        <div class="row container">
             <div class="block-1-3 block-m-1-2 block-tab-full">
                 <div class="col-block entry">
                     <div>
@@ -122,7 +122,7 @@
 <script>
 import event from './cards/eventCard.vue'
 import bigNav from './nav/bignav.vue'
-import foooter from './nav/foooter.vue'
+import foooter from './nav/footer.vue'
 export default {
  components : {
     event,
@@ -174,5 +174,9 @@ width: 42%;
         width: 85%;
         }
 }
-
+.row {
+  width: 100%;
+  max-width: none;
+  margin: 0 ;
+}
 </style>

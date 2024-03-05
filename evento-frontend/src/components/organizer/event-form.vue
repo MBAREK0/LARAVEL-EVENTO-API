@@ -1,68 +1,10 @@
 <template>
-    <smallNav/>
-    <!-- home
-    ================================================== -->
-    <main class="s-home s-home--particles">
-
-        <div id="particles-js" class="home-particles"></div>
-        
-        <div class="gradient-overlay"></div>
-
-        <div class="home-content">
-            <div class="row home-content__main">
+  <div class="row home-content__main">
                     <h3>Create your own Event</h3>
-                    <form class="form">
-                 
-                    <p class="message">Signup now and get full access to our app. </p>
-                    <div class="flex">
-                        <label>
-                            <input class="input" type="text" placeholder="" required>
-                            <span>Firstname</span>
-                        </label>
-
-                        <label>
-                            <input class="input" type="text" placeholder="" required>
-                            <span>Lastname</span>
-                        </label>
-                    </div>  
-                    <div class="flex">
-                        <label>
-                            <input class="input" type="text" placeholder="" required>
-                            <span>Firstname</span>
-                        </label>
-
-                        <label>
-                            <input class="input" type="text" placeholder="" required>
-                            <span>Lastname</span>
-                        </label>
-                    </div>  
-                    <label>
-                        <input class="input" type="email" placeholder="" required>
-                        <span>Email</span>
-                    </label> 
-                        
-                    <label>
-                        <input class="input" type="password" placeholder="" required>
-                        <span>Password</span>
-                    </label>
-                
-                   <label class="flex-upload">
-                    <p class="upload">Image</p>
-                       <upload/>
-                        
-
-                   </label>
-                    <button class="submit">POST</button>
-                   
-                </form>
+    
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt ducimus recusandae necessitatibus fugiat assumenda illo ipsa sed, doloremque quam dicta, odio expedita? Rerum, illum! Deserunt cumque vero doloribus autem eius?</p>
 
-            </div>  <!-- end home-content__main -->
-
-        
-        </div> <!-- end home-content -->
-
-    </main> <!-- end s-home -->
+            </div>  
 
 
   
@@ -70,9 +12,9 @@
 </template>
 
 <script>
-import upload from  './cards/upload.vue'
-import smallNav from './nav/smallNav.vue'
-import foooter from './nav/foooter.vue'
+import upload from  '../user/cards/upload.vue'
+import smallNav from '../user/nav/nav.vue'
+import foooter from '../user/nav/footer.vue'
 export default {
 components : {
     upload,
@@ -245,4 +187,4 @@ components : {
     align-items: center;
 
 }
-</style>
+</style>../user/nav/foooter.vue

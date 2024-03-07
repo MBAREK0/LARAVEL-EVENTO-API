@@ -31,12 +31,10 @@ class AuthController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|max:255',
             'role_id' => 'required',
             
         ]);
-
-        // If validation fails, return error response
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
@@ -55,7 +53,15 @@ class AuthController extends Controller
     }
     public function login()
     {
-        
+            $validator = Validator::make(request()->all(), [
+                'email' => 'required|string|email|max:255',
+                'password' => 'required|string|min:8|max:255'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
@@ -109,7 +115,8 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user()->role_id
         ]);
     }
 }

@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::group([
 
@@ -27,9 +24,24 @@ Route::group([
 ], function ($router) {
 
     Route::post('login',  [AuthController::class,'login']);
-    Route::post('logout',  [AuthController::class,'logout']);
     Route::post('refresh',  [AuthController::class,'refresh']);
     Route::post('me',  [AuthController::class,'me']);
-       Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('api');
+    Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('api');
 
+});
+
+
+Route::middleware(['admin','auth'])->group(function () {
+
+});
+
+Route::middleware(['organizer','auth'])->group(function () {
+
+});
+
+Route::middleware(['auth'])->group(function () {
+Route::get('/user', function (Request $request) {
+    return $request->user();
+});
+Route::post('logout',  [AuthController::class,'logout']);
 });

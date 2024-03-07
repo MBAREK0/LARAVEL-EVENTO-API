@@ -18,21 +18,23 @@
                 </router-link>
             </div>
             <div class="row home-content__main">
-                
-                <form class="form">
+              <div v-if="validationError" class="alert alert-danger">
+                {{ validationError }}
+              </div>
+                <form class="form" @submit.prevent="login">
                     <p class="title">Register </p>                
                     <label>
-                        <input class="input" type="email" placeholder="" required>
+                        <input class="input" type="email" v-model="email" placeholder="" required>
                         <span>Email</span>
                     </label> 
                         
                     <label>
-                        <input class="input" type="password" placeholder="" required>
+                        <input class="input" type="password" placeholder="" v-model="password" required>
                         <span>Password</span>
                     </label>
 
                     <button class="submit">Submit</button>
-                    <p class="signin">don't have an acount ? <a href="#">Sign-up</a> </p>
+                    <p class="signin">don't have an acount ? <router-link :to="{name : 'sign-up'}">Sign-Up</router-link> </p>
                 </form>
                
             </div>
@@ -56,11 +58,59 @@
 
 <script>
 import foooter from './nav/footer.vue'
+import axios from 'axios';
+
 export default {
   components : {
     foooter
+  },
+   data() {
+    return {
+      email: '',
+      password: '',
+      error: null,
+      validationError:null
+    };
+  },
+  methods: {
+    login() {
+      axios.post('http://127.0.0.1:8000/api/auth/login', {
+        email: this.email,
+        password: this.password
+      })
+      .then(response => {
+        const token = response.data.access_token;
+        localStorage.setItem('accessToken', token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const expiresIn = response.data.expires_in * 1000;
+        setTimeout(() => {
+                   this.$router.push({name: 'sign-in'}); 
+          }, expiresIn);
+        localStorage.setItem('isLogin', true);
+        localStorage.setItem('role',response.data.user );
+        
+         this.$router.push({name: 'home'});
+      })
+      .catch(error => {
+       if (error.response && error.response.status === 422) {
+          const validationErrors = error.response.data.errors;
+          this.displayValidationErrors(validationErrors);
+      } else {
+          console.error('Error:', error.message);
+     }
+      });
+    },
+     displayValidationErrors(errors) {
+    for (const field in errors) {
+      if (errors.hasOwnProperty(field)) {
+        const errorMessage = errors[field][0]; 
+        console.error(`${field}: ${errorMessage}`);
+        this.validationError = errorMessage; 
+      }
+    }
   }
-}
+  }
+};
 </script>
 
 

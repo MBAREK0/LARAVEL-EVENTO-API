@@ -5,6 +5,7 @@ import admin from '@/components/admin/adminDashbord.vue'
 import event from '@/components/user/event.vue'
 import signin from '@/components/user/sign-in.vue'
 import signup from '@/components/user/sign-up.vue'
+import logout from '@/components/user/logout.vue'
 import notFound from '@/components/404.vue'
 
 const routes = [
@@ -21,12 +22,14 @@ const routes = [
   {
     path: '/organizer',
     component: organizer,
-    name: 'organizer'
+    name: 'organizer',
+    meta: { requiresRole: '2' }
   },
   {
     path: '/admin',
     component: admin,
-    name: 'admin'
+    name: 'admin',
+    meta: { requiresRole: '3' }
   },
   {
     path: '/sign-in',
@@ -39,6 +42,11 @@ const routes = [
     name: 'sign-up'
   },
   {
+    path: '/logout',
+    component: logout,
+    name: 'logout'
+  },
+  {
     // Catch-all route for 404 errors
     path: '/:catchAll(.*)',
     component: notFound
@@ -49,5 +57,18 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const requiresRole = to.meta.requiresRole;
+  const userRole = localStorage.getItem('role');
+
+  if (userRole == '3') next();
+  if (requiresRole && userRole !== requiresRole) {
+    next({ name: 'home' });
+  } else {
+    next();
+  }
+});
+
 
 export default router

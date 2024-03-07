@@ -114,6 +114,9 @@
         </div>
     </main> <!-- /main -->
     <foooter/>
+      <div>
+
+  </div>
     <!-- preloader
     ================================================== -->
 
@@ -123,13 +126,44 @@
 import event from './cards/eventCard.vue'
 import bigNav from './nav/bignav.vue'
 import foooter from './nav/footer.vue'
+
+import axios from 'axios';
+
 export default {
- components : {
+     components : {
     event,
     bigNav,
     foooter
- }
-}
+ },
+ 
+  data() {
+    return {
+      
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+          const roleId = localStorage.getItem('role');
+            const requestData = {
+      role_id: roleId
+    };
+        const accessToken = localStorage.getItem('accessToken');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        const response = await axios.get('http://127.0.0.1:8000/api/user',
+         {
+      params: requestData  // Send role_id as query parameter
+    });
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error from articles:', error);
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>

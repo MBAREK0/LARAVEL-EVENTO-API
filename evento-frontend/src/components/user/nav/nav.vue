@@ -15,22 +15,25 @@
               <a href="#" class="nav-link">Home</a>
             </li>
           </router-link>
-          <router-link :to="{name : 'organizer'}" class="nav-link">
+          <router-link :to="{name : 'organizer'}" class="nav-link" v-if="role === '2' || role === '3'">
             <li class="nav-item">
               <a href="#" class="nav-link">Organizer Space</a>
             </li>
           </router-link>
-          <router-link :to="{name : 'admin'}" class="nav-link">
+          <router-link :to="{name : 'admin'}" class="nav-link" v-if="role === '3'">
             <li class="nav-item">
               <a href="#" class="nav-link">Admin Space</a>
             </li>
           </router-link>
         </ul>
-        <router-link :to="{name : 'sign-in'}" class="nav-link">
+        <router-link :to="{name : 'sign-in'}" class="nav-link" v-if="!islogin">
           <a href="#" class="nav-link-sign">Sign In</a>
         </router-link>
-        <router-link :to="{name : 'sign-up'}" class="nav-link">
+        <router-link :to="{name : 'sign-up'}" class="nav-link" v-if="!islogin">
           <a href="#" class="nav-link-sign">Sign up</a>
+        </router-link>
+        <router-link :to="{name : 'logout'}" class="nav-link" v-if="islogin">
+          <a href="#" class="nav-link-sign">Logout</a>
         </router-link>
       </div>
     </div>
@@ -38,7 +41,21 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data(){
+    return{
+      islogin:false,
+      role:null
+    }
+  },
+  mounted(){
+        const islogin = localStorage.getItem('isLogin');
+        const role = localStorage.getItem('role');
+        this.islogin= islogin;
+        this.role= role;
+       
+  }
+}
 </script>
 
 <style scoped>

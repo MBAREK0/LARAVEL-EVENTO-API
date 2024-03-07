@@ -4,10 +4,7 @@
   
 </template>
 <script>
-  // window.$ = window.jQuery = require('jquery');
-
-  // $(()=> console.log("éh"))
-  // import "assets/js/app.js";
+  
   window.$ = window.jQuery = require("@/assets/js/jquery-3.2.1.min.js");
   require("@/assets/js/modernizr.js")
   require("@/assets/js/pace.min.js")

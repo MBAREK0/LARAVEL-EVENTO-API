@@ -198,7 +198,7 @@ export default {
   methods:{
       showForm(){
     this.Form = !this.Form;
-     console.log(this.Form);
+    
   }
   }
 }

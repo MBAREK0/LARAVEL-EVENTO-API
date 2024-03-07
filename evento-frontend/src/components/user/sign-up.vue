@@ -47,14 +47,14 @@
                     <div>
                         <div class="radio-buttons-container">
                           <div class="radio-button">
-                            <input name="radio-group" id="radio2" class="radio-button__input" type="radio" v-model="selectedOption" value="user" ref="radio2">
+                            <input name="radio-group" id="radio2" class="radio-button__input" type="radio" v-model="selectedOption" value="1" ref="radio2">
                             <label for="radio2" class="radio-button__label">
                               <span class="radio-button__custom"></span>
                               user
                             </label>
                           </div>
                           <div class="radio-button">
-                            <input name="radio-group" id="radio1" class="radio-button__input" type="radio" v-model="selectedOption" value="organizer" ref="radio1">
+                            <input name="radio-group" id="radio1" class="radio-button__input" type="radio" v-model="selectedOption" value="2" ref="radio1">
                             <label for="radio1" class="radio-button__label">
                               <span class="radio-button__custom"></span>
                               organizer
@@ -67,7 +67,7 @@
                         <span>Confirm password</span>
                     </label> -->
                     <button class="submit">Submit</button>
-                    <p class="signin">Already have an acount ? <a href="#">Signin</a> </p>
+                    <p class="signin">Already have an acount ? <router-link :to="{name : 'sign-in'}">Sign-In</router-link> </p>
                 </form>
                
             </div>
@@ -101,9 +101,8 @@ export default {
       lastName: '',
       email: '',
       password: '',
-      role_id:1,
       error: null,
-      selectedOption:'user',
+      selectedOption:'1',
       validationError:null
     };
   },
@@ -114,10 +113,9 @@ export default {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
-        role_id: this.role_id
+        role_id: this.selectedOption
       })
       .then(response => {
-        console.log(response.data.errors);
         this.$router.push('/sign-in');
       })
       .catch(error => {

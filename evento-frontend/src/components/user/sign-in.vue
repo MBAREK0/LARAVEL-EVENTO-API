@@ -66,7 +66,7 @@ export default {
 
 <style scoped>
 .home-slider-img{
-    background-image: url('https://media.istockphoto.com/id/1138194497/photo/3d-render-abstract-minimal-background-glowing-lines-going-up-arrow-cyber-chart-pink-blue-neon.jpg?s=612x612&w=0&k=20&c=Y9b1DzRWeYJRg_2QAVA0t8Mj2iL2v7BGJW0KV_5UNiA=');
+    background-image: url('https://media.istockphoto.com/id/1391169357/vector/violet-neon-lines-and-triangle-abstract-technology-background.jpg?s=612x612&w=0&k=20&c=oeAXgnfN31SZrBy_Gf6Yp3lyG_jSetRvCS2Ig0x1eWw=');
 }
 
 .modal-form {

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,11 +36,22 @@ Route::group([
 
 
 Route::middleware(['admin','auth'])->group(function () {
-
+    // categories
+    Route::post('store-category', [CategorieController::class,'store']);
+    Route::post('destroy-category', [CategorieController::class,'destroy']);
+    Route::post('update-category', [CategorieController::class,'update']);
+    Route::get('index-category', [CategorieController::class,'index']);
+    
 });
 
 Route::middleware(['organizer','auth'])->group(function () {
 
+        // Events
+    Route::post('store-event', [EventController::class,'store']);
+    Route::post('destroy-event', [EventController::class,'destroy']);
+    Route::post('update-event', [EventController::class,'update']);
+    Route::get('show-event', [EventController::class,'show']);
+    Route::get('index-event', [EventController::class,'index']);
 });
 
 Route::middleware(['auth'])->group(function () {

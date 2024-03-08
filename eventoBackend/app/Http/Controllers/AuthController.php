@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 class AuthController extends Controller
 {
      /**
@@ -16,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','forgetPassword','resetPassword']]);
     }
 
     /**
@@ -26,20 +29,19 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // Validate the incoming request data
+       
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8|max:255',
             'role_id' => 'required',
-            
         ]);
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // If validation passes, create a new user
         $user = User::create([
             'firstName' => $request->input('firstName'),
             'lastName' => $request->input('lastName'),
@@ -62,13 +64,13 @@ class AuthController extends Controller
                 return response()->json(['errors' => $validator->errors()], 422);
             }
 
-        $credentials = request(['email', 'password']);
+            $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+            if (! $token = auth()->attempt($credentials)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
 
-        return $this->respondWithToken($token);
+            return $this->respondWithToken($token);
     }
 
     /**
@@ -119,4 +121,49 @@ class AuthController extends Controller
             'user' => auth()->user()->role_id
         ]);
     }
+public function forgetPassword(){
+    $validator = Validator::make(request()->all(), [
+        'email' => 'required|string|email|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $data['email'] = request('email'); 
+    dispatch(new SendEmailJob($data));
+
+    $token = Hash::make(Str::random(60)); 
+
+    $user = DB::table('users')->where('email', $data['email'])->first();
+
+    if ($user) {
+        $userId = $user->id;
+        DB::table('users')->where('id', $userId)->update(['remember_token' => $token]);
+        return response()->json(['reset_token' => $token]);
+    }
+    return response()->json(['error' => 'User not found'], 404);
+}
+public function resetPassword()
+{
+    $validator = Validator::make(request()->all(), [
+        'password' => 'required|string|min:8', // Adjust min length as needed
+        'reset_token' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $user = User::where('remember_token', request('reset_token'))->first();
+
+    if ($user) {
+        $hashedPassword = Hash::make(request('password'));
+        $user->update(['password' => $hashedPassword]);
+        return response()->json(['message' => 'Password updated successfully']);
+    }
+
+        return response()->json(['error' => 'User not found. Please try again.'], 404);
+}
+
 }

@@ -14,16 +14,18 @@
 
             <div class="home-logo">
                 <router-link :to="{name :'home'}">
-                    <img src="../../assets/logo.png" alt="Homepage">
+                    <img src="../../../assets/logo.png" alt="Homepage">
                 </router-link>
             </div>
             <div class="row home-content__main">
-              <div v-if="validationError" class="alert alert-danger">
-                {{ validationError }}
-              </div>
+
              <form class="form"  @submit.prevent="register">
+
                     <p class="title">Register </p>
                     <p class="message">Signup now and get full access to our app. </p>
+                    <div v-if="validationError" class="alert alert-danger op">
+                       {{ validationError }}
+                    </div>
                         <div class="flex">
                         <label>
                            <input class="input" type="text" v-model="firstName" placeholder="" required>
@@ -66,7 +68,7 @@
                         <input class="input" type="password" placeholder="" required>
                         <span>Confirm password</span>
                     </label> -->
-                    <button class="submit">Submit</button>
+                    <button class="submit">Sign Up</button>
                     <p class="signin">Already have an acount ? <router-link :to="{name : 'sign-in'}">Sign-In</router-link> </p>
                 </form>
                
@@ -89,7 +91,7 @@
 </template>
 
 <script>
-import foooter from './nav/footer.vue'
+import foooter from '../nav/footer.vue'
 import axios from 'axios';
 export default {
   components : {

@@ -42,4 +42,14 @@
   align-items: center;
   margin-bottom: 10px;
 }
+.op{
+    opacity: 0.4 !important;
+    background-color: #760064 !important;
+    color: aliceblue !important;
+}
+.os{
+    opacity: 0.4 !important;
+    background-color: #186592 !important;
+    color: aliceblue !important;
+}
 </style>

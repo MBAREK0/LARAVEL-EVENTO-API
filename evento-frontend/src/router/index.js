@@ -3,10 +3,13 @@ import home from '@/components/user/home.vue'
 import organizer from '@/components/organizer/organizerDashbord.vue'
 import admin from '@/components/admin/adminDashbord.vue'
 import event from '@/components/user/event.vue'
-import signin from '@/components/user/sign-in.vue'
-import signup from '@/components/user/sign-up.vue'
-import logout from '@/components/user/logout.vue'
+import signin from '@/components/user/auth/sign-in.vue'
+import signup from '@/components/user/auth/sign-up.vue'
+import logout from '@/components/user/auth/logout.vue'
+import resetPassword from '@/components/user/auth/resetPassword.vue'
+import forgetPassword from '@/components/user/auth/forgetPassword.vue'
 import notFound from '@/components/404.vue'
+
 
 const routes = [
   {
@@ -45,6 +48,18 @@ const routes = [
     path: '/logout',
     component: logout,
     name: 'logout'
+  },
+  {
+    path: '/forget-password',
+    component: forgetPassword,
+    name: 'forget-password' 
+
+  },
+  {
+    path: '/resetPassword',
+    component: resetPassword,
+    name: 'fresetPassword'
+
   },
   {
     // Catch-all route for 404 errors

@@ -25,6 +25,8 @@ Route::group([
 
     Route::post('login',  [AuthController::class,'login']);
     Route::post('refresh',  [AuthController::class,'refresh']);
+    Route::post('forgetPassword',  [AuthController::class,'forgetPassword']);
+    Route::post('resetPassword',  [AuthController::class,'resetPassword']);
     Route::post('me',  [AuthController::class,'me']);
     Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('api');
 
@@ -40,8 +42,12 @@ Route::middleware(['organizer','auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+
+Route::post('logout',  [AuthController::class,'logout']);
+
+});
+
+
 Route::get('/user', function (Request $request) {
     return $request->user();
-});
-Route::post('logout',  [AuthController::class,'logout']);
 });

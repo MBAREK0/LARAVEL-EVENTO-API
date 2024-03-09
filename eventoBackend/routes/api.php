@@ -41,7 +41,6 @@ Route::middleware(['admin','auth'])->group(function () {
     Route::post('store-category', [CategorieController::class,'store']);
     Route::delete('destroy-category', [CategorieController::class,'destroy']);
     Route::put('update-category', [CategorieController::class,'update']);
-    Route::get('index-category', [CategorieController::class,'index']);
 
     // Users 
     Route::get('get-users', [AdminController::class,'getUsers']);
@@ -57,15 +56,19 @@ Route::middleware(['organizer','auth'])->group(function () {
 
         // Events
     Route::post('store-event', [EventController::class,'store']);
+    Route::post('store-image', [EventController::class,'storeImage']);
     Route::post('destroy-event', [EventController::class,'destroy']);
     Route::post('update-event', [EventController::class,'update']);
     Route::get('show-event', [EventController::class,'show']);
-    Route::get('index-event', [EventController::class,'index']);
 });
 
 Route::middleware(['auth'])->group(function () {
 
 Route::post('logout',  [AuthController::class,'logout']);
+Route::get('index-category', [CategorieController::class,'index']);
+Route::get('index-event', [EventController::class,'index']);
+
+
 
 });
 

@@ -39,7 +39,6 @@
                 <label>
                     <span>the user role </span>
                     <select name="" class="input" id="" v-model="roleID">
-                       
                         <option :value="role.id" v-for="role in Roles" :key="role.id">{{ role.name }}</option>
                     </select>
                 </label>

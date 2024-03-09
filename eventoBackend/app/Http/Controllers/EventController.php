@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Category;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -16,7 +18,12 @@ class EventController extends Controller
      */
     public function index()
     {
-        $Events = Event::where('is_published', 1)->get();
+        $Events =  DB::table('events as E')
+                    ->select('E.*', 'U.email as author', 'C.name as category')
+                    ->join('users as U', 'E.id_user', '=', 'U.id')
+                    ->join('categories as C', 'E.id_categorie', '=', 'C.id')
+                    ->where('E.is_published', true)
+                    ->get();
         $categories=Category::all();
         return response()->json(['Events' => $Events,'categories' => $categories], Response::HTTP_OK);
     }
@@ -29,6 +36,8 @@ class EventController extends Controller
      */
     public function store()
     {
+    // return response()->json(['message' =>request()->all()], Response::HTTP_OK);
+
         $validator = Validator::make(request()->all(), [
                 'title' => 'required|max:255',
                 'description' => 'required|max:255',
@@ -143,6 +152,15 @@ public function update()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+      public function storeImage(Request $request){
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $path = $request->file('image')->store('public/images');
+        $publicPath = str_replace('public/', '', $path);
+        return response()->json(['path' => $publicPath]);
+ }
     public function destroy()
     {
         $id = request('id');

@@ -33,45 +33,7 @@
           </button>
           </div>
           <div class="card mb-4" v-if="table1">
-              <div class="card-body px-0 pt-0 pb-2">
-                  <div class="table-responsive">
-                      <table class="table table-striped table-hover">
-                          <thead>
-                              <tr>
-                                  <th scope="col" class="text-white">Author</th>
-                                  <th scope="col" class="text-white">Function</th>
-                                  <th scope="col" class="text-center text-white">Status</th>
-                                  <th scope="col" class="text-center text-white">Employed</th>
-                                  <th scope="col" class="text-white"></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>
-                                      <div class="d-flex align-items-center">
-                                          <img src="https://demos.creative-tim.com/soft-ui-dashboard/assets/img/team-2.jpg" width="50" class="avatar avatar-sm me-3" alt="Author Image">
-                                          <div>
-                                              <h6 class="mb-0">John Michael 1</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td class="align-middle text-center">
-                                      <span class="badge badge-sm  text-xs">Online</span>
-                                  </td>
-                                  <td class="align-middle text-center">
-                                      <span class="badge badge-sm  text-xs">Online</span>
-                                  </td>
-                                  <td class="align-middle text-center">
-                                      <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                  </td>
-                                  <td class="align-middle">
-                                      <a href="javascript:;" class="text-secondary font-weight-bold" data-toggle="tooltip" data-original-title="Edit user">Edit</a>
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
+             <Events/>
           </div>
           <div class="card mb-4" v-if="table2">
               <div class="card-body px-0 pt-0 pb-2">
@@ -116,51 +78,69 @@
           </div>
         </div>
     
-    <form class="form" v-if="Form">
-    
-      <p class="message">Signup now and get full access to our app. </p>
+    <form class="form" v-if="Form"  @submit.prevent="submitEvent">
+      <p class="title">Add New Event </p>
       <div class="flex">
           <label>
-              <input class="input" type="text" placeholder="" required>
-              <span>Event Name </span>
+              <input class="input" type="text" v-model="title" placeholder="" required>
+              <span>Title</span>
           </label>
-
           <label>
-              <input class="input" type="text" placeholder="" required>
-              <span>Event Speaker</span>
+              <select  class="input" v-model="type_reserved" >
+                <option value="manuel" selected>manuel</option>
+                  <option value="automatic" >automatic</option>
+              </select>
+              <span>type of reserved</span>
           </label>
       </div>  
-      <div class="flex">
-          <label>
-              <input class="input" type="text" placeholder="" required>
-              <span>Start Date</span>
-          </label>
-
-          <label>
-              <input class="input" type="text" placeholder="" required>
-              <span>Lastname</span>
-          </label>
-      </div>  
+     <label>
+      <p>category</p>
+          <select name="" class="input" v-model="id_categorie">
+              <option :value="category.id" v-for="category in categories" :key="category.id">{{ category.name }}</option>
+          </select>
+      </label>
       <label>
-          <input class="input" type="email" placeholder="" required>
-          <span>Email</span>
+        <p>description</p>
+        <textarea class="input" v-model="description" required></textarea>
       </label> 
           
       <label>
-          <input class="input" type="password" placeholder="" required>
-          <span>Password</span>
+          <input class="input" type="date" v-model="date" required>
+          <span>date</span>
       </label>
-  
-      <label class="flex-upload">
-      <p class="upload-image">Image</p>
-          <upload/>
-          
-
+      <label>
+          <input class="input" type="text" v-model="place" required>
+          <span>place</span>
       </label>
+       <label>
+       <p>Price $ <small>Please enter a valid number</small></p>
+          <input class="input" type="number" v-model="prix" required>
+          <span>price</span>
+      </label>
+         <label>
+        <p>number of places <small>Please enter a valid number</small></p>
+          <input class="input" type="number" v-model="number_places" required>
+          <span>number of places</span>
+      </label>
+         <label>
+          <input class="input" type="text" v-model="instagram" required>
+          <span>instagram Link</span>
+      </label>
+         <label>
+          <input class="input" type="text" v-model="facebook" required>
+          <span>facebook Link</span>
+      </label>
+         <label>
+          <input class="input" type="text" v-model="twitter" required>
+          <span>twitter Link</span>
+      </label>  
+      <input type="file" @change="handleFileChange">
+       <div v-if="validationError" class="alert alert-danger op">
+          {{ validationError }}
+      </div> 
       <button class="submit">POST</button>
        <button class="anuler" @click="showForm">cancel</button>
-      
-      </form>
+    </form>
    
     </div>
 </template>
@@ -170,20 +150,37 @@ import cart from './dash/statistique-cart.vue'
 import smallNav from '../user/nav/nav.vue'
 import eventForm from './event-form.vue'
 import upload from  '../user/cards/upload.vue'
+import Events from './handelEvents.vue' 
+import axios from 'axios'
 export default {
   data(){
     return{
+      validationError:'',
       table1:true,
       table2:false,
       selectedOption: 'Next',
-      Form : false
+      Form : false,
+      categories:'',
+      title:'',
+      description:'',
+      number_places:'',
+      place:'',
+      prix:'',
+      date:'',
+      type_reserved:'',
+      id_categorie:'',
+      instagram:'',
+      facebook:'',
+      twitter:'',
+      selectedFile:''
     }
   },
   components : {
     cart,
     smallNav,
     eventForm,
-    upload
+    upload,
+    Events
   },
   updated() {
     // Check if the radio buttons are checked
@@ -197,9 +194,72 @@ export default {
   },
   methods:{
       showForm(){
-    this.Form = !this.Form;
-    
-  }
+    this.Form = !this.Form; 
+  },
+        async fetchCategories() {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          const response = await axios.get('http://127.0.0.1:8000/api/index-category');
+          this.categories = response.data.categories;
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error from categories:', error);
+        }
+      },
+      async submitEvent() {
+     
+        if (!this.selectedFile) {
+          console.error('No file selected.');
+          return;
+        }
+        // Perform the image upload
+        const imagePath = await this.uploadImageFile(this.selectedFile);
+        // Send the data to the backend
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/api/store-event', {
+          title: this.title,
+          type_reserved: this.type_reserved,
+          id_categorie: this.id_categorie,
+          description: this.description,
+          date: this.date,
+          place: this.place,
+          prix: this.prix,
+          number_places: this.number_places,
+          instagram: this.instagram,
+          facebook: this.facebook,
+          twitter: this.twitter,
+          image_path: imagePath,
+          });
+          console.log('Event added successfully:', response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 422) {
+          const validationErrors = error.response.data.errors;
+          this.displayValidationErrors(validationErrors);
+      } else {
+          console.error('Error:', error.message);
+     }
+        }
+     },
+
+  async uploadImageFile(file) {
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const response = await axios.post('http://127.0.0.1:8000/api/store-image', formData);
+      return response.data.path;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return 'image/logo.png';
+    }
+  },
+   handleFileChange(event) {
+    this.selectedFile = event.target.files[0];
+    console.log('Selected File:', this.selectedFile);
+  },
+  },
+  mounted(){
+    this.fetchCategories();
   }
 }
 </script>
@@ -218,15 +278,11 @@ export default {
 .table{
   background-color: black;
   color: #fff;
- 
- 
 }
 .table span,a,p,h6{
    font-size: 16px !important;
      color: #fff;
-     margin: 0;
-
-   
+     margin: 0; 
 }
 
 .removable{
@@ -308,7 +364,7 @@ export default {
 }
 .form{
     position: absolute;
-    top: 50%;
+    top: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10px;

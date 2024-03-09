@@ -15,8 +15,9 @@ created() {
         const accessToken = localStorage.getItem('accessToken');
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         const response = await axios.post('http://127.0.0.1:8000/api/logout');
+          console.log('fuck');
         
-        if(response.data.message === 'Successfully logged out'){
+        if(response.data.message === true ){
             localStorage.removeItem('accessToken');
             localStorage.removeItem('isLogin');
             localStorage.removeItem('role');

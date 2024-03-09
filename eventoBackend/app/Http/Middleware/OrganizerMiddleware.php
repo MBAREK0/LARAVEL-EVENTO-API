@@ -16,7 +16,7 @@ class OrganizerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-         $roleId = $request->input('role_id');
+         $roleId = auth()->user()->role_id;
 
         $role = Role::where('id', $roleId)->value('name');
         

@@ -36,7 +36,6 @@ class EventController extends Controller
                 'prix' => 'required|max:255',
                 'number_places' => 'required|max:255',
                 'image_path' => 'required|max:255',
-                'is_published' => 'required|max:255',
                 'type_reserved' => 'required|max:255',
                 'id_categorie' => 'required|max:255',
                 'instagram' => 'required|max:255',
@@ -55,7 +54,6 @@ class EventController extends Controller
         $Events->prix = request('prix');
         $Events->number_places = request('number_places');
         $Events->image_path = request('image_path');
-        $Events->is_published = request('is_published');
         $Events->type_reserved = request('type_reserved');
         $Events->id_categorie = request('id_categorie');
         $Events->instagram = request('instagram');
@@ -101,7 +99,6 @@ public function update()
         'prix' => 'required|max:255',
         'number_places' => 'required|max:255',
         'image_path' => 'required|max:255',
-        'is_published' => 'required|max:255',
         'type_reserved' => 'required|max:255',
         'id_categorie' => 'required|max:255',
         'instagram' => 'required|max:255',
@@ -129,7 +126,6 @@ public function update()
     $event->prix = request('prix');
     $event->number_places = request('number_places');
     $event->image_path = request('image_path');
-    $event->is_published = request('is_published');
     $event->type_reserved = request('type_reserved');
     $event->id_categorie = request('id_categorie');
     $event->instagram = request('instagram');
@@ -153,11 +149,11 @@ public function update()
         $category = Event::find($id);
 
         if (!$category) {
-            return response()->json(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(['error' => 'Event not found'], Response::HTTP_NOT_FOUND);
         }
 
         $category->delete();
 
-        return response()->json(['message' => 'Category deleted successfully'], Response::HTTP_OK);
+        return response()->json(['message' => 'Event deleted successfully'], Response::HTTP_OK);
     }
 }

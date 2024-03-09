@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\EventController;
@@ -38,9 +39,17 @@ Route::group([
 Route::middleware(['admin','auth'])->group(function () {
     // categories
     Route::post('store-category', [CategorieController::class,'store']);
-    Route::post('destroy-category', [CategorieController::class,'destroy']);
-    Route::post('update-category', [CategorieController::class,'update']);
+    Route::delete('destroy-category', [CategorieController::class,'destroy']);
+    Route::put('update-category', [CategorieController::class,'update']);
     Route::get('index-category', [CategorieController::class,'index']);
+
+    // Users 
+    Route::get('get-users', [AdminController::class,'getUsers']);
+    Route::get('get-events', [AdminController::class,'getEvents']);
+    Route::put('update-role', [AdminController::class,'updateRole']);
+    Route::delete('destroy-user', [AdminController::class,'destroyUser']);
+    Route::put('accept-event', [AdminController::class,'acceptEvent']);
+
     
 });
 

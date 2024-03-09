@@ -77,11 +77,13 @@ router.beforeEach((to, from, next) => {
   const requiresRole = to.meta.requiresRole;
   const userRole = localStorage.getItem('role');
 
-  if (userRole == '3') next();
-  if (requiresRole && userRole !== requiresRole) {
-    next({ name: 'home' });
-  } else {
-    next();
+  if (userRole === '3') next();
+  else{
+    if (requiresRole && userRole !== requiresRole) {
+      next({ name: 'home' });
+    } else {
+      next();
+    }
   }
 });
 

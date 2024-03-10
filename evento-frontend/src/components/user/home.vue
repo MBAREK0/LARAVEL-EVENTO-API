@@ -67,6 +67,20 @@
               
             </div>
         </div>
+
+        <div>
+            <div class="page-info">
+                Showing 1 of {{ totalPages }}
+            </div>
+            <button @click="page(1)" :class="{ 'paginate-active': pageNumber === 1 }" class="paginate">First</button>
+
+            <!-- Use v-for to generate buttons for each page -->
+            <button v-for="pageNumber in totalPages" :key="pageNumber" @click="page(pageNumber)" :class="{ 'paginate-active': pageNumber === currentPage }" class="paginate">
+                {{ pageNumber }}
+            </button>
+
+            <button @click="page(totalPages)" :class="{ 'paginate-active': pageNumber === totalPages }" class="paginate">Last</button>
+        </div>
     </main> 
     <foooter/>
       <div>
@@ -92,6 +106,9 @@ export default {
       categories: [],
       receivedSearchQuery: "",
       selectedCategory: '',
+      totalPages:'',
+      pageNumber:1,
+      currentPage: 1, // Add this line
     };
   },
   methods: {
@@ -107,9 +124,11 @@ export default {
         const response = await axios.post(apiUrl, { 
             search: this.receivedSearchQuery,
             category: this.selectedCategory,
+            pageNumber:this.pageNumber
          });
         this.events = response.data.Events;
         this.categories = response.data.categories;
+        this.totalPages = response.data.pages;
         console.log(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -121,6 +140,11 @@ export default {
         behavior: 'smooth', 
       });
     },
+    page(page){
+        this.pageNumber = page ;
+         this.currentPage = page;
+        this.fetchData();
+    }
   },
   mounted() {
     this.fetchData();
@@ -252,5 +276,17 @@ width: 42%;
     align-items: center !important;
     flex-wrap:wrap;
     gap: 20px;
+    }
+
+    .paginate{
+        background-color: transparent;
+        border: 1px solid #4c8bf580;
+        color: #fff;
+    }
+    .paginate:hover,.paginate:focus{
+        background-color: #4c8bf580;
+    }
+    .paginate-active{
+        background-color: #4c8bf580 !important;
     }
 </style>

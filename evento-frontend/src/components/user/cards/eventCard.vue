@@ -1,12 +1,13 @@
 <template>
   <section id="card1" class="card">
-    <img src="https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?cs=srgb&dl=pexels-josh-sorenson-976866.jpg&fm=jpg" alt=""/>
+    <img :src="fullImagePath()" alt="event without picture"/>
     <div class="card__content">
-      <p class="card__title">Lorem Ipsum</p>
+      <p class="card__title">{{ event.title }}</p>
       <p class="card__description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae
-        justo vel lorem tincidunt ultrices at non nunc. Donec in sapien viverra,
-        tincidunt augue id, efficitur massa.
+        {{ event.description }}
+      </p>
+      <p class="card__description">
+        {{ event.date }}
       </p>
     </div>
   </section>
@@ -14,8 +15,19 @@
 
 <script>
 export default {
-
-}
+    props: {
+        event: {
+            type: Object,
+            required: true,
+        },
+    },
+    methods:{
+          fullImagePath() {
+      return `http://127.0.0.1:8000/storage/${this.event.image_path}`;
+    }
+    }
+   
+};
 </script>
 
 <style scoped>

@@ -201,6 +201,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 .op{
     opacity: 0.4 !important;

@@ -130,12 +130,12 @@ export default {
       });
     },
      displayValidationErrors(errors) {
-    for (const field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        const errorMessage = errors[field][0]; 
-        console.error(`${field}: ${errorMessage}`);
-        this.validationError = errorMessage; 
-      }
+      for (const field in errors) {
+        if (errors.hasOwnProperty(field)) {
+          const errorMessage = errors[field][0]; 
+          console.error(`${field}: ${errorMessage}`);
+          this.validationError = errorMessage; 
+        }
     }
   }
   }

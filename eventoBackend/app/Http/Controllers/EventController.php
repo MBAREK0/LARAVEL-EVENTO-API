@@ -176,4 +176,22 @@ public function update()
 
         return response()->json(['message' => 'Event deleted successfully'], Response::HTTP_OK);
     }
+   public function statistics()
+{
+    $organizer = auth()->user()->id;
+
+    $eventsAcceptedCount = Event::where('is_published', true)
+                                ->where('id_user', $organizer)
+                                ->count();
+
+    $eventsNotAcceptedCount = Event::where('is_published', false)
+                                   ->where('id_user', $organizer)
+                                   ->count();
+
+    return response()->json([
+        'eventsAccepted' => $eventsAcceptedCount,
+        'eventsNotAccepted' => $eventsNotAcceptedCount,
+    ], Response::HTTP_OK);
+}
+
 }

@@ -4,10 +4,10 @@
         <div class="container-fluid pt-3">
           <h6 class="hello">Hello Admin </h6>
           <div class="row removable">
-            <cart/>
-            <cart/>
-            <cart/>
-            <cart/>
+            <cart  :statistics="All_Users"  :EventStatus="stat_1"/>
+            <cart  :statistics="All_Organizers"  :EventStatus="stat_2"/>
+            <cart  :statistics="E_Accepted"  :EventStatus="stat_3"/>
+            <cart  :statistics="E_Not_Accepted"  :EventStatus="stat_4"/> 
           </div>
           <div class="flxbox">
           <div>
@@ -108,6 +108,14 @@ import { BIconEmojiNeutralFill } from 'bootstrap-vue';
 export default {
   data(){
     return{
+      All_Organizers :'',
+      All_Users :'',
+      E_Not_Accepted :'',
+      E_Accepted :'',
+      stat_1 :'Users',
+      stat_2 :'Organizers',
+      stat_3:'Events Accepted',
+      stat_4 :'Events Not Accepted',      
       table1:true,
       table2:false,
       table3:false,
@@ -222,10 +230,23 @@ export default {
           console.error('Error deleting category:', error);
         }
       },
-
+      async fetchStatistics() {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          const response = await axios.get('http://127.0.0.1:8000/api/admin-statistics');
+          this.E_Accepted = response.data.eventsAccepted;
+          this.E_Not_Accepted = response.data.eventsNotAccepted;
+          this.All_Users = response.data.users;
+          this.All_Organizers = response.data.organizers;
+        } catch (error) {
+          console.error('Error from categories:', error);
+        }
+      }
 },
   mounted(){
       this.fetchCategories();
+      this.fetchStatistics();
   }}
     
 

@@ -8,72 +8,61 @@
     <main class="s-home s-home--slides info-is-visible">
 
         <div class="home-slider">
-            <div class="home-slider-img"  ref="homeSliderImg"></div>
+          <div class="home-slider-img" ref="homeSliderImg" :style="{ backgroundImage: 'url(' + fullImagePath() + ')', backgroundSize: 'cover' }"></div>
 
         </div>
 
-        <div class="overlay"></div>
+        <!-- <div class="overlay"></div> -->
 
         <div class="home-content">
             <div class="row home-content__main">
-
                 <div class="col-eight home-content__text pull-right">
-                    <h3>Welcome to Count</h3>
+                    <h3>Welcome to Evento</h3>
 
                     <h1>
-                    We are currently working <br>
-                    on a new super awesome <br> website.
+                   {{ event.title }}
                     </h1>
 
-                   
-
-                </div>  <!-- end home-content__text -->
-
+                </div>  
                 <div class="col-four home-content__counter">
                     <h3>Launching In</h3>
 
-                    <div class="home-content__clock">
+                    <div class="home-content__clock"  v-if="!ispassed">
                         <div class="top">
                             <div class="time days">
-                                325
+                                {{ remainingDays }}
                                 <span>Days</span>
                             </div>
                         </div>    
                         <div class="time hours">
-                            09
+                            {{ remainingHours }}
                             <span>H</span>
                         </div>
                         <div class="time minutes">
-                            54
+                            {{ remainingMinutes }}
                             <span>M</span>
                         </div>
                         <div class="time seconds">
-                            30
+                            {{ remainingSeconds }}
                             <span>S</span>
                         </div>
-                    </div>  <!-- end home-content__clock -->
-                </div>  <!-- end home-content__counter -->
-
-            </div>  <!-- end home-content__main -->
+                    </div> 
+                    <p v-if="ispassed" style="color: #fff;"> Is Passed In {{ event.date }} </p> 
+                </div>  
+            </div>  
 
             <ul class="home-social">
                 <li>
-                <a href="#0"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a>
+                <a :href="event.facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a>
                 </li>
                 <li>
-                <a href="#0"><i class="fab fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>
+                <a :href="event.twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>
                 </li>
                 <li>
-                <a href="#0"><i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
+                <a :href="event.instagram"><i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
                 </li>
-            </ul> <!-- end home-social -->
-
-      
-
-            <div class="home-content__line"></div>
-
-        </div> <!-- end home-content -->
-
+            </ul>
+      </div> 
     </main> <!-- end s-home -->
 
 
@@ -88,35 +77,29 @@
         <div class="row info-wrapper">
 
             <div class="col-seven tab-full info-main">
-                <h1>We are Count. We make awesome stuff.</h1>
+                <h1>{{ event.title }}</h1>
                 <p>
-                Quisque velit nisi, pretium ut lacinia in, elementum id enim. Mauris blandit aliquet elit, 
-                eget tincidunt nibh pulvinar a. Quisque velit nisi, pretium ut lacinia in, elementum id enim. 
-                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; 
-                Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                  {{ event.description }}
                 </p>
                 <div @click="toggleModel" width="100%">
-                <ticket/>   
+                <ticket :price="event.prix" />   
                 </div>
             </div>
            
             <div class="col-four tab-full pull-right info-contact">
 
                 <div class="info-block">
-                    <h3>Start A Conversation</h3>
+                    <h3>Number Of tickets </h3>
                     <p>
-                        <a href="mailto:#0" class="info-email">mailus@ourwebsite.com</a><br>
-                        <a href="tel:+18587338912" class="'info-phone">+1.858.733.8912</a>
+                        <a href="mailto:#0" class="info-email">{{ event.number_places }}</a><br>
                     </p>
                 </div>
 
                 <div class="info-block">
-                    <h3>Visit Our Office</h3>
+                    <h3>the {{ event.title }} place </h3>
                     
                     <p class="info-address">
-                        1600 Amphitheatre Parkway<br>
-                        Mountain View, CA<br>
-                        94043 US
+                      {{ event.place }}
                     </p>
                 </div>
 
@@ -125,15 +108,15 @@
                     
                     <ul class="info-social">
                         <li>
-                            <a href="#0"><i class="fab fa-facebook" aria-hidden="true"></i>
+                            <a :href="event.facebook"><i class="fab fa-facebook" aria-hidden="true"></i>
                             <span>Facebook</span></a>
                         </li>
                         <li>
-                            <a href="#0"><i class="fab fa-twitter" aria-hidden="true"></i>
+                            <a :href="event.twitter"><i class="fab fa-twitter" aria-hidden="true"></i>
                             <span>Twiiter</span></a>
                         </li>
                         <li>
-                            <a href="#0" ><i class="fab fa-instagram" aria-hidden="true"></i>
+                            <a :href="event.instagram" ><i class="fab fa-instagram" aria-hidden="true"></i>
                             <span>Instagram</span></a>
                         </li>
                     </ul>
@@ -144,36 +127,20 @@
         </div>  <!-- end info wrapper -->
 
     </div> <!-- end s-info -->
-   <div v-if="model" class="modal-form">
-    <form class="form">
-        <p class="title">Evento </p>
-        
-            <div class="flex">
-            <label>
-                <input class="input" type="text" placeholder="" required>
-                <span>Firstname</span>
-            </label>
 
-            <label>
-                <input class="input" type="text" placeholder="" required>
-                <span>Lastname</span>
-            </label>
-        </div>  
-                
-        <label>
-            <input class="input" type="email" placeholder="" required>
-            <span>Email</span>
-        </label> 
-            
-        <label>
-            <input class="input" type="date" placeholder="" required>
-            <span>age</span>
-        </label>
-        <button class="submit" >CheckOut</button>
-    </form>
-
-   </div>
-
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader">
+            <div class="line-scale-pulse-out">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
    
 
 </template>
@@ -186,7 +153,13 @@ export default {
   data() {
     return {
       path: '',
-      model:false,
+      event:'',
+      targetDate:'', 
+      remainingDays: 0,
+      remainingHours: 0,
+      remainingMinutes: 0,
+      remainingSeconds: 0,
+      ispassed:false,
       
  
     }
@@ -203,10 +176,43 @@ export default {
         document.body.classList.toggle('info-is-visible');
       });
     },
-     toggleModel() {
-      this.model = !this.model;
+        calculateRemainingTime() {
+      const targetTimestamp = new Date(this.targetDate).getTime();
+      const currentTimestamp = new Date().getTime();
+      const timeDifference = targetTimestamp - currentTimestamp;
+
+      if (timeDifference > 0) {
+        // Calculate days, hours, minutes, and seconds
+        this.remainingDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        this.remainingHours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        this.remainingMinutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        this.remainingSeconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      } else {
+        // The target date has passed
+        this.remainingDays = 0;
+        this.remainingHours = 0;
+        this.remainingMinutes = 0;
+        this.remainingSeconds = 0;
+        this.ispassed = true;
+      }
+    },    
+    fullImagePath() {
+      return `http://127.0.0.1:8000/storage/${this.event.image_path}`;
     }
+    
   },
+  mounted(){
+    this.event = JSON.parse(this.$route.query.data);
+    this.targetDate = this.event.date;
+     this.calculateRemainingTime();
+    setTimeout(()=>{
+          document.getElementById('preloader').style.display = 'none';
+    },1001)
+    // Optionally, you can set up a timer to update the remaining time every second
+    setInterval(() => {
+      this.calculateRemainingTime();
+    }, 1000);
+  }
   
 
 };
@@ -214,9 +220,9 @@ export default {
 
 
 <style scoped>
-.home-slider-img{
+/* .home-slider-img{
     background-image: url('https://wallpapers.com/images/hd/concert-background-dd0syeox7rmi78l0.jpg');
-}
+} */
 .modal-form {
     position: absolute;
     top: 50%;
@@ -354,5 +360,83 @@ export default {
   width: 90% !important;
 }
 }
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #050505;
+  z-index: 800;
+  height: 100%;
+  width: 100%;
+  display: table;
+ 
+}
+#loader {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
 
+.line-scale-pulse-out > div {
+  background-color: #ec008c;
+  width: 4px;
+  height: 35px;
+  border-radius: 2px;
+  margin: 2px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  display: inline-block;
+  -webkit-animation: line-scale-pulse-out 0.9s -0.6s infinite cubic-bezier(0.85, 0.25, 0.37, 0.85);
+  animation: line-scale-pulse-out 0.9s -0.6s infinite cubic-bezier(0.85, 0.25, 0.37, 0.85);
+}
+
+.line-scale-pulse-out > div:nth-child(2),
+.line-scale-pulse-out > div:nth-child(4) {
+  -webkit-animation-delay: -0.4s !important;
+  animation-delay: -0.4s !important;
+}
+
+.line-scale-pulse-out > div:nth-child(1),
+.line-scale-pulse-out > div:nth-child(5) {
+  -webkit-animation-delay: -0.2s !important;
+  animation-delay: -0.2s !important;
+}
+
+@-webkit-keyframes line-scale-pulse-out {
+  0% {
+    -webkit-transform: scaley(1);
+    transform: scaley(1);
+  }
+
+  50% {
+    -webkit-transform: scaley(0.4);
+    transform: scaley(0.4);
+  }
+
+  100% {
+    -webkit-transform: scaley(1);
+    transform: scaley(1);
+  }
+
+}
+
+@keyframes line-scale-pulse-out {
+  0% {
+    -webkit-transform: scaley(1);
+    transform: scaley(1);
+  }
+
+  50% {
+    -webkit-transform: scaley(0.4);
+    transform: scaley(0.4);
+  }
+
+  100% {
+    -webkit-transform: scaley(1);
+    transform: scaley(1);
+  }
+
+}
 </style>

@@ -49,6 +49,8 @@ Route::middleware(['admin','auth'])->group(function () {
     Route::put('update-role', [AdminController::class,'updateRole']);
     Route::delete('destroy-user', [AdminController::class,'destroyUser']);
     Route::put('accept-event', [AdminController::class,'acceptEvent']);
+    Route::get('admin-statistics',[AdminController::class,'statistics']);
+
 
     
 });
@@ -61,11 +63,11 @@ Route::middleware(['organizer','auth'])->group(function () {
     Route::post('destroy-event', [EventController::class,'destroy']);
     Route::put('update-event', [EventController::class,'update']);
     Route::get('show-event', [EventController::class,'show']);
+    Route::get('organizer-statistics',[EventController::class,'statistics']);
 });
 
 Route::middleware(['auth'])->group(function () {
 
-Route::post('logout',  [AuthController::class,'logout']);
 Route::get('index-category', [CategorieController::class,'index']);
 Route::get('index-event', [EventController::class,'index']);
 
@@ -73,3 +75,4 @@ Route::get('index-event', [EventController::class,'index']);
 
 
 Route::post('home-events', [homeController::class,'events']);
+Route::post('logout',  [AuthController::class,'logout']);

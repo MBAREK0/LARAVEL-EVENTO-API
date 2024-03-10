@@ -7,7 +7,7 @@
     <div class="flx">
     <div class="search">
         <input placeholder="Search..."   v-model="searchQuery" type="text">
-        <button type="submit" @click="sendSearchQuery" >Go</button>
+        <button type="submit" @click="sendSearchQuery">Go</button>
       </div>
     </div>
   </div>

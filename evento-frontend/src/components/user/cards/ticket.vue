@@ -3,9 +3,9 @@
 <div class="unique-card">
   <div class="background-overlay"></div>
   <div class="card-content">
-    <div class="card-title">GET A TICKET <small>Num:12164 </small> </div>
+    <div class="card-title">GET A TICKET </div>
     <div class="card-description"><h1>
-        <bold>199$</bold>
+        <bold>{{price}}$</bold>
     </h1> </div>
   </div>
 </div>
@@ -15,8 +15,13 @@
 
 <script>
 export default {
-
-}
+  props: {
+    price: {
+      type: Number, 
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>

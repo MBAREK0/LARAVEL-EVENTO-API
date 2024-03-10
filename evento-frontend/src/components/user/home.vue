@@ -56,8 +56,8 @@
      
                 <div class="col-block entry" v-for="event in events" :key="event.id">
                     <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
+                       <router-link :to="{ name: 'event',query: { data: JSON.stringify(event) } }" >
+                        <event :event="event" />
                         </router-link>
                     </div>
                     <div class="entry__title">
@@ -73,12 +73,9 @@
                 Showing 1 of {{ totalPages }}
             </div>
             <button @click="page(1)" :class="{ 'paginate-active': pageNumber === 1 }" class="paginate">First</button>
-
-            <!-- Use v-for to generate buttons for each page -->
             <button v-for="pageNumber in totalPages" :key="pageNumber" @click="page(pageNumber)" :class="{ 'paginate-active': pageNumber === currentPage }" class="paginate">
                 {{ pageNumber }}
             </button>
-
             <button @click="page(totalPages)" :class="{ 'paginate-active': pageNumber === totalPages }" class="paginate">Last</button>
         </div>
     </main> 
@@ -108,7 +105,7 @@ export default {
       selectedCategory: '',
       totalPages:'',
       pageNumber:1,
-      currentPage: 1, // Add this line
+      currentPage: 1, 
     };
   },
   methods: {

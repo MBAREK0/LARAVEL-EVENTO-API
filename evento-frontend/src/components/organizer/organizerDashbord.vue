@@ -4,10 +4,9 @@
         <div class="container-fluid pt-3">
           <h6 class="hello">Hello Organize </h6>
           <div class="row removable">
-            <cart/>
-            <cart/>
-            <cart/>
-            <cart/>
+            <cart  :statistics="E_Accepted"  :EventStatus="stat_1"/>
+            <cart  :statistics="E_Not_Accepted"  :EventStatus="stat_2"/>
+
           </div>
           <div class="flxbox">
           <div>
@@ -154,6 +153,10 @@ import axios from 'axios'
 export default {
   data(){
     return{
+      stat_1:'Events Accepted',
+      stat_2:'Events Not Accepted',
+      E_Accepted:'',
+      E_Not_Accepted:'',
       validationError:'',
       table1:true,
       table2:false,
@@ -208,8 +211,10 @@ export default {
       async submitEvent() {
      
         if (!this.selectedFile) {
-          console.error('No file selected.');
+          // console.error('please select a picture .');
+           this.validationError = 'please select a picture .';
           return;
+         
         }
         // Perform the image upload
         const imagePath = await this.uploadImageFile(this.selectedFile);
@@ -232,12 +237,14 @@ export default {
           console.log('Event added successfully:', response.data);
         } catch (error) {
             if (error.response && error.response.status === 422) {
-          const validationError = error.response.data.errors;
-          // this.displayValidationErrors(validationErrors);
+           this.validationError = error.response.data.errors;
+          console.log('errooorrr ====>',error.response.data.errors);
+           this.displayValidationErrors(validationError);
       } else {
           console.error('Error:', error.message);
      }
         }
+       this.fetchStatistics();
        this.showForm();
         
      },
@@ -257,8 +264,29 @@ export default {
     this.selectedFile = event.target.files[0];
     console.log('Selected File:', this.selectedFile);
   },
+    async fetchStatistics() {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          const response = await axios.get('http://127.0.0.1:8000/api/organizer-statistics');
+          this.E_Accepted = response.data.eventsAccepted;
+          this.E_Not_Accepted = response.data.eventsNotAccepted;
+        } catch (error) {
+          console.error('Error from categories:', error);
+        }
+      },
+       displayValidationErrors(errors) {
+      for (const field in errors) {
+        if (errors.hasOwnProperty(field)) {
+          const errorMessage = errors[field][0]; 
+          console.error(`${field}: ${errorMessage}`);
+          this.validationError = errorMessage; 
+        }
+    }
+  }
   },
   mounted(){
+    this.fetchStatistics();
     this.fetchCategories();
   }
 }
@@ -364,7 +392,7 @@ export default {
 }
 .form{
     position: absolute;
-    top: 100%;
+    top: 120%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10px;

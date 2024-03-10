@@ -97,8 +97,25 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+   public function statistics()
+{
+    $users = User::where('role_id', '<>', 3)
+                  ->where('role_id', '<>', 2)
+                  ->count();
+
+    $organizers = User::where('role_id', '<>', 3)
+                       ->where('role_id', '<>', 1)
+                       ->count();
+
+    $eventsAccepted = Event::where('is_published', true)->count();
+    $eventsNotAccepted = Event::where('is_published', false)->count();
+
+    return response()->json([
+        'users' => $users,
+        'organizers' => $organizers,
+        'eventsAccepted' => $eventsAccepted,
+        'eventsNotAccepted' => $eventsNotAccepted,
+    ], Response::HTTP_OK);
+}
+
 }

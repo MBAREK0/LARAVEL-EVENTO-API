@@ -4,9 +4,9 @@
             <div class="card-body p-3">
                 <div class="row">
                         <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize text-white font-weight-bold">Today's Users</p>
+                            <p class="text-sm mb-0 text-capitalize text-white font-weight-bold">{{ EventStatus }} : </p>
                             <h5 class="font-weight-bolder text-white mb-0">
-                                2,300
+                               {{statistics}}
                             </h5>
                         </div>    
                 </div>
@@ -17,8 +17,17 @@
 
 <script>
 export default {
-
-}
+  props: {
+    statistics: {
+      type: Number, 
+      required: true,
+    },
+    EventStatus:{
+        type: String, 
+      required: true,
+    }
+  },
+};
 </script>
 
 <style scoped>

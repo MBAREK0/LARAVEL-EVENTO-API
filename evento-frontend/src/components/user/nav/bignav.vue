@@ -6,8 +6,8 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
     <div class="flx">
     <div class="search">
-        <input placeholder="Search..." type="text">
-        <button type="submit">Go</button>
+        <input placeholder="Search..."   v-model="searchQuery" type="text">
+        <button type="submit" @click="sendSearchQuery" >Go</button>
       </div>
     </div>
   </div>
@@ -21,7 +21,18 @@ import smallNav from './nav.vue'
 export default {
   components :{
     smallNav
-  }
+  },
+  data(){
+    return{
+        searchQuery:'',
+    }
+  
+  },
+   methods: {
+    sendSearchQuery() {
+      this.$emit("search", this.searchQuery);
+    },
+  },
 }
 </script>
 

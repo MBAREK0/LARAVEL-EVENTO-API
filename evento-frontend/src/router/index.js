@@ -9,6 +9,7 @@ import logout from '@/components/user/auth/logout.vue'
 import resetPassword from '@/components/user/auth/resetPassword.vue'
 import forgetPassword from '@/components/user/auth/forgetPassword.vue'
 import notFound from '@/components/404.vue'
+import editEvent from '@/components/organizer/event-form.vue'
 
 
 const routes = [
@@ -26,6 +27,12 @@ const routes = [
     path: '/organizer',
     component: organizer,
     name: 'organizer',
+    meta: { requiresRole: '2' }
+  },
+  {
+    path: '/editEvent',
+    component: editEvent,
+    name: 'editEvent',
     meta: { requiresRole: '2' }
   },
   {

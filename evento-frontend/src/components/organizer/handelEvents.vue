@@ -4,23 +4,19 @@
                       <table class="table table-striped table-hover">
                           <thead>
                               <tr>
-                                  <th scope="col" class="text-white ">author</th>
+                        
                                   <th scope="col" class="text-white ">title</th>
                                   <th scope="col" class="text-white ">description</th>
                                   <th scope="col" class="text-white ">date</th>
                                   <th scope="col" class="text-white ">place</th>
                                   <th scope="col" class="text-white ">prix</th>
                                   <th scope="col" class="text-white ">N° places</th>
-                                
                                   <th scope="col" class="text-white"></th>
                                   <th scope="col" class="text-white"></th>
                               </tr>
                           </thead>
                           <tbody v-if="Events">
                              <tr v-for="event in Events" :key="event.id">
-                              <td>
-                                <span class="mb-0">{{ event.author }}</span>
-                              </td>
                               <td>
                                 <span class="mb-0">{{ event.title }}</span>
                               </td>
@@ -40,7 +36,8 @@
                                 <span class="mb-0">{{ event.number_places }}</span>
                               </td>                                         
                               <td class="align-middle text-center">
-                              <h6 class="mt-1 accept" @click="editEvent(event)"> edit</h6>
+                              
+                              <router-link :to="{ name : 'editEvent' ,query: { data: JSON.stringify(event) } }"><h6 class="mt-1 accept" > edit</h6></router-link>
                               <h6 class="mb-1 accept" @click="deleteEvent(event.id)"> delete</h6>
                               </td>
                             </tr>

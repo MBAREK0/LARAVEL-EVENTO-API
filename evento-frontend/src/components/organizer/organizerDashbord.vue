@@ -13,17 +13,17 @@
           <div>
               <div class="radio-buttons-container">
                 <div class="radio-button">
-                  <input name="radio-group" id="radio2" class="radio-button__input" type="radio" v-model="selectedOption" value="Next" ref="radio2">
+                  <input name="radio-group" id="radio2" class="radio-button__input" type="radio" v-model="selectedOption" value="My Events" ref="radio2">
                   <label for="radio2" class="radio-button__label">
                     <span class="radio-button__custom"></span>
-                    Next
+                    My Events
                   </label>
                 </div>
                 <div class="radio-button">
-                  <input name="radio-group" id="radio1" class="radio-button__input" type="radio" v-model="selectedOption" value="Svelte" ref="radio1">
+                  <input name="radio-group" id="radio1" class="radio-button__input" type="radio" v-model="selectedOption" value="Reservations" ref="radio1">
                   <label for="radio1" class="radio-button__label">
                     <span class="radio-button__custom"></span>
-                    Svelte
+                    Reservations
                   </label>
                 </div>
               </div>
@@ -100,8 +100,9 @@
           </select>
       </label>
       <label>
-        <p>description</p>
+      
         <textarea class="input" v-model="description" required></textarea>
+          <span>description</span>
       </label> 
           
       <label>
@@ -110,17 +111,16 @@
       </label>
       <label>
           <input class="input" type="text" v-model="place" required>
-          <span>place</span>
+          <span>place </span>
       </label>
        <label>
-       <p>Price $ <small>Please enter a valid number</small></p>
+       
           <input class="input" type="number" v-model="prix" required>
-          <span>price</span>
+          <span>price <small>Please enter a valid number</small></span>
       </label>
          <label>
-        <p>number of places <small>Please enter a valid number</small></p>
           <input class="input" type="number" v-model="number_places" required>
-          <span>number of places</span>
+          <span>number of places <small>Please enter a valid number</small></span>
       </label>
          <label>
           <input class="input" type="text" v-model="instagram" required>
@@ -148,7 +148,6 @@
 <script>
 import cart from './dash/statistique-cart.vue'
 import smallNav from '../user/nav/nav.vue'
-import eventForm from './event-form.vue'
 import upload from  '../user/cards/upload.vue'
 import Events from './handelEvents.vue' 
 import axios from 'axios'
@@ -158,7 +157,7 @@ export default {
       validationError:'',
       table1:true,
       table2:false,
-      selectedOption: 'Next',
+      selectedOption: 'My Events',
       Form : false,
       categories:'',
       title:'',
@@ -178,7 +177,6 @@ export default {
   components : {
     cart,
     smallNav,
-    eventForm,
     upload,
     Events
   },
@@ -234,12 +232,14 @@ export default {
           console.log('Event added successfully:', response.data);
         } catch (error) {
             if (error.response && error.response.status === 422) {
-          const validationErrors = error.response.data.errors;
-          this.displayValidationErrors(validationErrors);
+          const validationError = error.response.data.errors;
+          // this.displayValidationErrors(validationErrors);
       } else {
           console.error('Error:', error.message);
      }
         }
+       this.showForm();
+        
      },
 
   async uploadImageFile(file) {

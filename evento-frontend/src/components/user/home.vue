@@ -3,13 +3,9 @@
     <!-- header 
     ================================================== -->
     <header id="sildes">
-            <bigNav/> 
-           	
+            <bigNav @search="handleSearch" />         	
     </header>
     <!-- end header -->
-
-    <!-- main content
-    ================================================== -->
     <main class="home">
         <div class=" main-event">
             <img src="https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE="  alt="...">
@@ -18,153 +14,127 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque esse quae reiciendis suscipit. Deleniti dolores ad soluta sunt illo adipisci magnam tempore sit iusto obcaecati consequatur, corporis nostrum provident nihil.</p>
             </div>
         </div>
-        <div class="row container">
-            <div class="block-1-3 block-m-1-2 block-tab-full">
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
-                </div>
-                <div class="col-block entry">
-                    <div>
-                       <router-link :to="{ name: 'event' }" >
-                        <event/>
-                        </router-link>
-                    </div>
-                    <div class="entry__title">
-                        <h3>Static Background</h3>
-                    </div>
+
+    <div class="row container">
+
+        <div class="flxbox">
+            <div class="radio-button">
+                <input
+                name="radio-group"
+                id="radioNocategory"
+                class="radio-button__input"
+                type="radio"
+                v-model="selectedCategory"
+                value=""
+                />
+                <label for="radioNocategory" class="radio-button__label">
+                <span class="radio-button__custom"></span>
+                No Category
+                </label>
+            </div>
+            <div class="radio-buttons-container" v-for="category in categories" :key="category.id">
+                <div class="radio-button">
+                    <input
+                    name="radio-group"
+                    :id="`radio${category.id}`"
+                    class="radio-button__input"
+                    type="radio"
+                    v-model="selectedCategory"
+                    :value="category.id"
+                    :ref="category.name"
+                    />
+                    <label :for="`radio${category.id}`" class="radio-button__label">
+                    <span class="radio-button__custom"></span>
+                    {{ category.name }} 
+                    </label>
+                    
                 </div>
             </div>
         </div>
-    </main> <!-- /main -->
+
+            <div class="block-1-3 block-m-1-2 block-tab-full">
+     
+                <div class="col-block entry" v-for="event in events" :key="event.id">
+                    <div>
+                       <router-link :to="{ name: 'event' }" >
+                        <event/>
+                        </router-link>
+                    </div>
+                    <div class="entry__title">
+                        <h3>{{ event.title }}</h3>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </main> 
     <foooter/>
       <div>
 
   </div>
-    <!-- preloader
-    ================================================== -->
-
 </template>
 
 <script>
-import event from './cards/eventCard.vue'
-import bigNav from './nav/bignav.vue'
-import foooter from './nav/footer.vue'
-
+import event from './cards/eventCard.vue';
+import bigNav from './nav/bignav.vue';
+import foooter from './nav/footer.vue';
 import axios from 'axios';
 
 export default {
-     components : {
+  components: {
     event,
     bigNav,
-    foooter
- },
- 
+    foooter,
+  },
   data() {
     return {
-      
+      events: [],
+      categories: [],
+      receivedSearchQuery: "",
+      selectedCategory: '',
     };
-  },
-  created() {
-    this.fetchData();
   },
   methods: {
+    handleSearch(query) {
+      this.receivedSearchQuery = query;
+      this.fetchData();
+      this.scrollDown();
+    },
     async fetchData() {
+      const apiUrl = 'http://127.0.0.1:8000/api/home-events';
+  
       try {
-          const roleId = localStorage.getItem('role');
-            const requestData = {
-      role_id: roleId
-    };
-        const accessToken = localStorage.getItem('accessToken');
-        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        const response = await axios.get('http://127.0.0.1:8000/api/user',
-         {
-      params: requestData  // Send role_id as query parameter
-    });
+        const response = await axios.post(apiUrl, { 
+            search: this.receivedSearchQuery,
+            category: this.selectedCategory,
+         });
+        this.events = response.data.Events;
+        this.categories = response.data.categories;
         console.log(response.data);
       } catch (error) {
-        console.error('Error from articles:', error);
+        console.error('Error fetching data:', error);
       }
-    }
-  }
+    },
+    scrollDown() {
+      window.scrollBy({
+        top: 1000, 
+        behavior: 'smooth', 
+      });
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
+  updated() {
+    console.log('category',this.selectedCategory)
+    console.log('search',this.receivedSearchQuery)
+  },
+  watch: {
+    selectedCategory: 'fetchData',  
+  },
 };
 </script>
+
 
 <style scoped>
 
@@ -213,4 +183,74 @@ width: 42%;
   max-width: none;
   margin: 0 ;
 }
+
+.removable{
+   margin-bottom: 5rem;
+}
+.radio-buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 0 !important;
+}
+
+.radio-button {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.radio-button__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-button__label {
+  display: inline-block;
+  padding-left: 30px;
+  margin-bottom: 0;
+  position: relative;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.radio-button__custom {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.radio-button__input:checked + .radio-button__label .radio-button__custom {
+  transform: translateY(-50%) scale(0.9);
+  border: 5px solid #00bfff96 ;
+  color: #00bfff96 ;
+}
+
+.radio-button__input:checked + .radio-button__label {
+  color: #00bfff96 ;
+}
+
+.radio-button__label:hover .radio-button__custom {
+  transform: translateY(-50%) scale(1.2);
+  border-color: #00bfff96 ;
+  box-shadow: 0 0 10px #4c8bf580;
+}
+.flxbox{
+    padding: 20px;
+    display: flex;
+    justify-content:flex-start;
+    align-items: center !important;
+    flex-wrap:wrap;
+    gap: 20px;
+    }
 </style>

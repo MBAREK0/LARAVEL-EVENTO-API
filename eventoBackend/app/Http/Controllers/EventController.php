@@ -18,11 +18,13 @@ class EventController extends Controller
      */
     public function index()
     {
+        $organizer =  auth()->user()->id;
         $Events =  DB::table('events as E')
                     ->select('E.*', 'U.email as author', 'C.name as category')
                     ->join('users as U', 'E.id_user', '=', 'U.id')
                     ->join('categories as C', 'E.id_categorie', '=', 'C.id')
                     ->where('E.is_published', true)
+                    ->where('E.id_user', $organizer)
                     ->get();
         $categories=Category::all();
         return response()->json(['Events' => $Events,'categories' => $categories], Response::HTTP_OK);

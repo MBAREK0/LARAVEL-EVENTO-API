@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\homeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,7 +59,7 @@ Route::middleware(['organizer','auth'])->group(function () {
     Route::post('store-event', [EventController::class,'store']);
     Route::post('store-image', [EventController::class,'storeImage']);
     Route::post('destroy-event', [EventController::class,'destroy']);
-    Route::post('update-event', [EventController::class,'update']);
+    Route::put('update-event', [EventController::class,'update']);
     Route::get('show-event', [EventController::class,'show']);
 });
 
@@ -68,11 +69,7 @@ Route::post('logout',  [AuthController::class,'logout']);
 Route::get('index-category', [CategorieController::class,'index']);
 Route::get('index-event', [EventController::class,'index']);
 
-
-
 });
 
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('home-events', [homeController::class,'events']);

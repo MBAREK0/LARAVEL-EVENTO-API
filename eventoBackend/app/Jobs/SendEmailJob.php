@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\SendEmailQueueDemo;
 use Mail;
+use Illuminate\Support\Facades\Log;
 class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -27,8 +28,10 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        
-        $email = new SendEmailQueueDemo();
-        Mail::to($this->data['email'])->send($email);
+            Log::info('SendEmailJob handling...');
+    $info = $this->data;
+    $email = new SendEmailQueueDemo($info);
+    Mail::to($this->data['email'])->send($email);
+    Log::info('SendEmailJob handled successfully.');
     }
 }

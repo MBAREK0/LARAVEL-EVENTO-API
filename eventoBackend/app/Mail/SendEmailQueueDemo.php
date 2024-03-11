@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class SendEmailQueueDemo extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $data;
    /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-          
+          $this->data = $data;
     }
   
     /**
@@ -26,8 +26,9 @@ class SendEmailQueueDemo extends Mailable
      */
     public function envelope(): Envelope
     {
+        $subject =$this->data;
         return new Envelope(
-            subject: 'How To Send E-mail Using Queue In laravel 10',
+            subject: $subject['subject'] ,
         );
     }
   
@@ -36,10 +37,14 @@ class SendEmailQueueDemo extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'mail.ResetPassword',
-        );
+         $view = $this->data;
+    
+    // Check if the 'content' key exists in the $view array
+    $content = isset($view['content']) ? $view['content'] : '';
+
+    return (new Content())->view($view['view'])->with('content', $content)->with('subject', $view['subject']);
     }
+
   
     /**
      * Get the attachments for the message.

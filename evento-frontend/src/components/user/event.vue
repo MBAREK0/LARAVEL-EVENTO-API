@@ -77,12 +77,13 @@
         <div class="row info-wrapper">
 
             <div class="col-seven tab-full info-main">
-                <h1>{{ event.title }}</h1>
+                <h1 >{{ event.title }}</h1>
+                <p v-if="message" class="msg">{{ message }}</p>
                 <p>
                   {{ event.description }}
                 </p>
                 <div @click="toggleModel" width="100%">
-                <ticket :price="event.prix" />   
+                <ticket :price="event.prix" @click="reservation" />   
                 </div>
             </div>
            
@@ -148,6 +149,7 @@
 <script>
 import ticket from './cards/ticket.vue'
 import smallNav from './nav/nav.vue'
+import axios from 'axios'
 
 export default {
   data() {
@@ -160,6 +162,7 @@ export default {
       remainingMinutes: 0,
       remainingSeconds: 0,
       ispassed:false,
+      message:null,
       
  
     }
@@ -198,6 +201,29 @@ export default {
     },    
     fullImagePath() {
       return `http://127.0.0.1:8000/storage/${this.event.image_path}`;
+    },
+    reservation(){
+      const islogin = localStorage.getItem('isLogin');
+      if(islogin){
+        this.add_reservation(this.event.id);
+      }else{
+        this.$router.push('/sign-in');
+      }
+    },
+   async add_reservation(id){
+       try {
+            const accessToken = localStorage.getItem('accessToken');
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            const response = await axios.post('http://127.0.0.1:8000/api/add_reservation', {
+              id: id
+            });
+            this.message = 'we will send you an email whene the organizer accepted you';
+            setTimeout(() => {
+              this.message = null;
+            }, 2000);
+          } catch (error) {
+            console.error('Error adding reservation:', error);
+          }
     }
     
   },
@@ -438,5 +464,12 @@ export default {
     transform: scaley(1);
   }
 
+}
+.msg{
+  background-color: #0087cc;
+  opacity: 0.5;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  padding: 5px 10px;
 }
 </style>

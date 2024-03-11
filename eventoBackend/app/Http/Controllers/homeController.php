@@ -14,7 +14,7 @@ public function events()
     $categoryId = request('category');
     $pageNumber = request('pageNumber');
 
-        $eventsNumInThePage = 1;
+        $eventsNumInThePage = 9;
         $eventsCount = DB::table('events')
                         ->where('is_published', true)
                         ->count();

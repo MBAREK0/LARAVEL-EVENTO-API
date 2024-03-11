@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -64,12 +65,17 @@ Route::middleware(['organizer','auth'])->group(function () {
     Route::put('update-event', [EventController::class,'update']);
     Route::get('show-event', [EventController::class,'show']);
     Route::get('organizer-statistics',[EventController::class,'statistics']);
+    Route::get('get_reservation', [ReservationController::class,'get_reservation']);
+    Route::put('accept_reservation', [ReservationController::class,'accept_reservation']);
+
+
 });
 
 Route::middleware(['auth'])->group(function () {
-
-Route::get('index-category', [CategorieController::class,'index']);
-Route::get('index-event', [EventController::class,'index']);
+    
+    Route::get('index-category', [CategorieController::class,'index']);
+    Route::get('index-event', [EventController::class,'index']);
+    Route::post('add_reservation', [ReservationController::class,'add_reservation']);
 
 });
 

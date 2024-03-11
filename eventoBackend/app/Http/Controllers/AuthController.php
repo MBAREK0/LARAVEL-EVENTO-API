@@ -130,6 +130,9 @@ public function forgetPassword(){
     }
 
     $data['email'] = request('email'); 
+    $data['subject'] = 'reset your password'; 
+    $data['view'] = 'mail.ResetPassword';
+    $data['content'] = '' ;
     dispatch(new SendEmailJob($data));
 
     $token = Hash::make(Str::random(60)); 

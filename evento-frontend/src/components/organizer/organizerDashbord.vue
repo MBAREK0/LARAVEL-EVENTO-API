@@ -39,35 +39,28 @@
                   <div class="table-responsive">
                       <table class="table table-striped table-hover">
                           <thead>
-                              <tr>
-                                  <th scope="col" class="text-white">Author</th>
-                                  <th scope="col" class="text-white">Function</th>
-                                  <th scope="col" class="text-center text-white">Status</th>
-                                  <th scope="col" class="text-center text-white">Employed</th>
+                              <tr >
+                                  <th scope="col" class="text-white">user</th>
+                                  <th scope="col" class="text-white">event</th>
+                                  <th scope="col" class="text-center text-white"></th>
+                                  <th scope="col" class="text-white"></th>
                                   <th scope="col" class="text-white"></th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr>
-                                  <td>
-                                      <div class="d-flex align-items-center">
-                                          <img src="https://demos.creative-tim.com/soft-ui-dashboard/assets/img/team-2.jpg" width="50" class="avatar avatar-sm me-3" alt="Author Image">
-                                          <div>
-                                              <h6 class="mb-0">John Michael 2</h6>
-                                          </div>
-                                      </div>
+                              <tr v-for="reservation in reservations" :key="reservation.id">
+                      
+                                  <td class="align-middle ">
+                                      <span class="badge badge-sm  text-xs">{{ reservation.email }}</span>
                                   </td>
-                                  <td class="align-middle text-center">
-                                      <span class="badge badge-sm  text-xs">Online</span>
-                                  </td>
-                                  <td class="align-middle text-center">
-                                      <span class="badge badge-sm  text-xs">Online</span>
-                                  </td>
-                                  <td class="align-middle text-center">
-                                      <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
+                                  <td class="align-middle ">
+                                      <span class="badge badge-sm  text-xs">{{ reservation.title }}</span>
                                   </td>
                                   <td class="align-middle">
-                                      <a href="javascript:;" class="text-secondary font-weight-bold" data-toggle="tooltip" data-original-title="Edit user">Edit</a>
+                                      <a href="javascript:;" class="text-secondary font-weight-bold bl" data-toggle="tooltip" data-original-title="Edit user" @click="approved(reservation.id)" >approved</a>
+                                  </td>
+                                  <td class="align-middle">
+                                      <a href="javascript:;" class="text-secondary font-weight-bold rd" data-toggle="tooltip" data-original-title="Edit user" @click="rejected(reservation.id)" >rejected</a>
                                   </td>
                               </tr>
                           </tbody>
@@ -174,7 +167,8 @@ export default {
       instagram:'',
       facebook:'',
       twitter:'',
-      selectedFile:''
+      selectedFile:'',
+      reservations:[],
     }
   },
   components : {
@@ -283,11 +277,51 @@ export default {
           this.validationError = errorMessage; 
         }
     }
-  }
+  },
+  async get_reservation() {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          const response = await axios.get('http://127.0.0.1:8000/api/get_reservation');
+          this.reservations = response.data.reservations;
+          console.log('=================>',response.data.reservations);
+        } catch (error) {
+          console.error('Error from reservation:', error);
+        }
+      },
+      async accept_reservation(status,id) {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          const response = await axios.put('http://127.0.0.1:8000/api/accept_reservation',{
+            id:id,
+            status:status
+          
+          });
+         
+          // console.log('=================>',response.data.reservations);
+        } catch (error) {
+          console.error('Error from reservation:', error);
+        }
+      },
+      approved(id){
+        this.accept_reservation('approved',id);
+            this.fetchStatistics();
+            this.fetchCategories();
+            this.get_reservation();
+      },
+      rejected(id){
+        this.accept_reservation('rejected',id);
+            this.fetchStatistics();
+            this.fetchCategories();
+            this.get_reservation();
+      }
+
   },
   mounted(){
     this.fetchStatistics();
     this.fetchCategories();
+    this.get_reservation();
   }
 }
 </script>
@@ -412,5 +446,11 @@ export default {
 }
 .upload-image{
   color:rgba(255, 255, 255, 0.5);
+}
+.bl{
+  color: #0087cc !important;
+}
+.rd{
+  color:crimson !important;
 }
 </style>

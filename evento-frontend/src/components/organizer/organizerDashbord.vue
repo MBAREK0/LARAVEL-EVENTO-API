@@ -127,9 +127,7 @@
           <span>twitter Link</span>
       </label>  
       <input type="file" @change="handleFileChange">
-       <div v-if="validationError" class="alert alert-danger op">
-          {{ validationError }}
-      </div> 
+ 
       <button class="submit">POST</button>
        <button class="anuler" @click="showForm">cancel</button>
     </form>
@@ -231,7 +229,7 @@ export default {
           console.log('Event added successfully:', response.data);
         } catch (error) {
             if (error.response && error.response.status === 422) {
-           this.validationError = error.response.data.errors;
+           
           console.log('errooorrr ====>',error.response.data.errors);
            this.displayValidationErrors(validationError);
       } else {
